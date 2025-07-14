@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prompt Builder</title>
+  <style>
+    :root {
+      --background: #f9f9fb;
+      --container-bg: #ffffff;
+      --primary: #2c3e50;
+      --border: #e0e0e0;
+      --button-bg: #1e88e5;
+      --button-hover: #1565c0;
+      --button-text: #ffffff;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: var(--container-bg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 40px;
+      margin: 60px auto;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      box-sizing: border-box;
+      background-color: #fefefe;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .build {
+      background-color: var(--button-bg);
+      color: var(--button-text);
+    }
+
+    .build:hover {
+      background-color: var(--button-hover);
+    }
+
+    .clear {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .clear:hover {
+      background-color: #c2c2c2;
+    }
+
+    .output {
+      margin-top: 30px;
+    }
+
+    .output label {
+      font-weight: 700;
+    }
+
+    .output-box {
+      background-color: #f4f4f4;
+      border: 1px solid #d0d0d0;
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Prompt Builder</h1>
+
+    <label for="role">AI to act like a</label>
+    <input type="text" id="role" placeholder="e.g., Code Reviewer, Test Engineer, Customer..." />
+
+    <label for="task">Task *</label>
+    <textarea id="task" placeholder="Tell the AI exactly what to do, preferably as a clear sequence of steps: 1, 2, 3..."></textarea>
+
+    <label for="content">Content</label>
+    <textarea id="content" placeholder="Provide the content the AI should use, like source code, email text, or filename..."></textarea>
+
+    <label for="format">Output Format</label>
+    <input type="text" id="format" placeholder="e.g., JSON, CSV, bullet points, etc." />
+
+    <div class="buttons">
+      <button class="build" onclick="buildPrompt()">Build Prompt</button>
+      <button class="clear" onclick="clearFields()">Clear</button>
+    </div>
+
+    <div class="output">
+      <label>Generated Prompt:</label>
+      <div class="output-box" id="outputBox">Your generated prompt will appear here...</div>
+    </div>
+  </div>
+
+  <script>
+    function buildPrompt() {
+      const role = document.getElementById("role").value.trim();
+      const task = document.getElementById("task").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const format = document.getElementById("format").value.trim();
+      let result = "";
+
+      if (role) result += `Act as a ${role}.\n`;
+      if (task) result += `Your task: ${task}\n`;
+      if (content) result += `Use the following content:\n${content}\n`;
+      if (format) result += `Output format: ${format}`;
+
+      document.getElementById("outputBox").textContent = result || "Please fill in at least the task.";
+    }
+
+    function clearFields() {
+      document.getElementById("role").value = "";
+      document.getElementById("task").value = "";
+      document.getElementById("content").value = "";
+      document.getElementById("format").value = "";
+      document.getElementById("outputBox").textContent = "Your generated prompt will appear here...";
+    }
+  </script>
+</body>
+</html>
